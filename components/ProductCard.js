@@ -4,15 +4,22 @@ import Price from './Price';
 import QuantityPicker from './QuantityPicker';
 
 class ProductCard extends Component {
-
   constructor(props) {
    super(props);
-   console.log(this.props)
+   this.state = {
+    quantity: 1
+   }
   }
 
   addToCart() {
     const { navigate } = this.props.navigation;
-    this.props.screenProps.addItemToCart(this.props.id)
+    this.props.screenProps.addItemToCart(this.props.id, this.state.quantity)
+  }
+
+  setQuantity(quantity) {
+    this.setState({
+      quantity: quantity
+    })
   }
 
   render() {
@@ -28,7 +35,7 @@ class ProductCard extends Component {
           </Text>
           <View style={styles.pricingAndQuantity}>
             <Price currentPrice={this.props.currentPrice} originPrice={this.props.originPrice}/>
-            <QuantityPicker setQuantity={this.props.screenProps.setQuantity} quantity={this.props.screenProps.quantity} />
+            <QuantityPicker setQuantity={this.setQuantity.bind(this)} />
           </View>
           <TouchableOpacity style={styles.addToCart}>
             <Button
@@ -61,6 +68,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingBottom: 10
   },
   addToCart: {
     backgroundColor: 'rgb(34, 119, 203)',

@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import products from '../products';
-import {FlatList, View, StyleSheet} from 'react-native';
+import {FlatList, View, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import CartCard from './CartCard';
 
 class CartList extends Component {
@@ -10,21 +10,21 @@ class CartList extends Component {
   }
 
   render() {
+    let {width, height} = Dimensions.get('window')
     return (
-      <View style={styles.productList}>
         <FlatList
+          style={{width: width, height: height* 0.6, marginTop: 10}}
           data={this.props.items}
           keyExtractor={(item) => item.id}
-          renderItem={({item}) => <CartCard {...item} />}
+          renderItem={({item}) => <CartCard {...item} deleteItem={this.props.deleteItem} />}
         />
-      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   productList: {
-    marginTop: 20
+    flexGrow: 0,
   }
 })
 

@@ -13,41 +13,73 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       items: [],
-      quantity: "1",
-      total: 0
+      total: 0,
+      totalItems: 0
     }
     this.addItemToCart = this.addItemToCart.bind(this)
-    this.setQuantity = this.setQuantity.bind(this)
     this.calculateTotal = this.calculateTotal.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
   }
 
   calculateTotal() {
     this.state.items.forEach((item) => {
-      this.setState({total: this.state.total + item.currentPrice * item.quantity})
+      this.setState({
+        total: this.state.total + item.currentPrice * item.quantity
+      }, () => {
+        console.log(this.state.total)
+      })
     })
   }
 
-  addItemToCart(id) {
+  countTotalItems() {
+    console.log(this.state.items)
+    this.state.items.forEach((item) => {
+      this.setState({
+        totalItems: this.state.totalItems + item.quantity
+      })
+    })
+  }
+
+  addItemToCart(id, quantity) {
     var item = _.find(this.state.items, {id: id})
     if(item) {
       var index = _.findIndex(this.state.items, {id: id});
-      item['quantity'] = parseInt(item['quantity']) + parseInt(this.state.quantity)
+      item['quantity'] = item['quantity'] + quantity
       var oldArray = this.state.items;
       var newArray = oldArray.splice(index, 1, item);
       this.setState({
         items: oldArray
       }, () => {
         this.calculateTotal()
+        this.countTotalItems()
       })
     } else {
       var item = _.find(products, {id: id})
-      item['quantity'] = parseInt(this.state.quantity)
+      item['quantity'] = quantity
       this.setState({
         items: this.state.items.concat(_.find(products, {id: id}))
       }, () => {
         this.calculateTotal()
+        this.countTotalItems()
       })
     }
+  }
+
+  deleteItem(id) {
+    var index = _.findIndex(this.state.items, {id: id});
+    var oldArray = this.state.items;
+    var newArray = oldArray.splice(index, 1);
+    this.setState({
+      items: oldArray
+    }, () => {
+      this.setState({
+        total: 0,
+        totalItems: 0
+      }, () => {
+        this.calculateTotal()
+        this.countTotalItems()
+      })
+    })
   }
 
   setQuantity(quantity) {
@@ -89,11 +121,12 @@ export default class App extends React.Component {
 
     return (
       <App screenProps={{items: this.state.items, 
-      addItemToCart: this.addItemToCart, 
-      setQuantity: this.setQuantity,
-      total: this.state.total,
-      calculateTotal: this.calculateTotal,
-      quantity: this.state.quantity}} />
+        addItemToCart: this.addItemToCart, 
+        total: this.state.total,
+        calculateTotal: this.calculateTotal,
+        totalItems: this.state.totalItems,
+        deleteItem: this.deleteItem
+      }} />
     );
   }
 }

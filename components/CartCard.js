@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import { View, Text, Image, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import Price from './Price';
+import CartPricingItem from './CartPricingItem';
 
 class CartCard extends Component {
 
@@ -14,34 +15,57 @@ class CartCard extends Component {
         <View style={styles.productCard}>
           <Image style={{width: 100, height: 100}} source={{uri: this.props.photo}}/>
           <View style={styles.productInfo}>
-            <Text> 
+            <Text style={{fontWeight: 'bold'}}> 
               {this.props.name}
             </Text>
+            <View style={{flex: 1, flexDirection: 'row', paddingTop: 15, paddingBottom: 15}}>
+              <Text style={{fontWeight: 'bold', color: 'grey'}}>Sold by:</Text>
+              <Text style={{color: 'grey'}}> WalMart.com</Text>
+            </View>
             <Text style={styles.shippingText}> 
               {this.props.ship}
             </Text>
             <View style={styles.pricingAndQuantity}>
-              <Price currentPrice={this.props.currentPrice} originPrice={this.props.originPrice}/>
+              <CartPricingItem quantity={this.props.quantity} currentPrice={this.props.currentPrice}/>
             </View>
           </View>
-
         </View>
-       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
-         <TouchableOpacity style={styles.saveForLater}>
-           <Text style={{ color: 'black', width: 60, textAlign: 'center'}}> {this.props.quantity} </Text>
-         </TouchableOpacity>
-         <TouchableOpacity style={styles.saveForLater}>
-           <Text style={{color: 'rgb(61, 144, 200)', fontWeight: 'bold'}}> SAVE FOR LATER </Text>
-         </TouchableOpacity>
-       </View>
-     </View>
+        <View style={{flex: 1, height: 40, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <TouchableOpacity style={styles.saveForLater}>
+            <Text style={{ color: 'black', width: 60, textAlign: 'center'}}> {this.props.quantity} </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.saveForLater}>
+            <Text style={{color: 'rgb(18, 121, 188)', fontWeight: 'bold', paddingLeft: 25, paddingRight: 25}}> SAVE FOR LATER </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{
+            borderWidth: 0.8,
+            borderColor: 'rgb(59, 149, 199)',
+            backgroundColor: 'white',
+            paddingVertical: 10,
+            overflow: 'hidden'
+          }}
+          onPress={() => {this.props.deleteItem(this.props.id)}}
+          >
+            <Image
+              style={styles.stretch}
+              resizeMode="stretch"
+              source={require('../delete3.png')}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  stretch: {
+    resizeMode: 'contain'
+  },
   productInfo: {
-    flex: 1, flexWrap: 'wrap'
+    flex: 1, 
+    flexWrap: 'wrap'
   },
   productCard: {
     flex: 1,
@@ -57,9 +81,10 @@ const styles = StyleSheet.create({
   },
   shippingText: {
     color: 'green',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    fontWeight: 'bold'
   },
-    saveForLater: {
+  saveForLater: {
     borderWidth: 0.8,
     borderColor: 'rgb(59, 149, 199)',
     backgroundColor: 'white',

@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     color: 'rgb(249, 138, 36)',
     fontWeight: 'bold',
     fontSize: 18,
+    paddingRight: 5
   },
   oldPrice: {
     color: 'red',
