@@ -39,17 +39,13 @@ class CartCard extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity style={{
-            borderWidth: 0.8,
-            borderColor: 'rgb(59, 149, 199)',
             backgroundColor: 'white',
-            paddingVertical: 10,
-            overflow: 'hidden'
           }}
           onPress={() => {this.props.deleteItem(this.props.id)}}
           >
             <Image
               style={styles.stretch}
-              resizeMode="stretch"
+              resizeMode="contain"
               source={require('../delete3.png')}
             />
           </TouchableOpacity>
@@ -61,7 +57,8 @@ class CartCard extends Component {
 
 const styles = StyleSheet.create({
   stretch: {
-    resizeMode: 'contain'
+    flex: 1,
+    height: null,
   },
   productInfo: {
     flex: 1, 
@@ -85,11 +82,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   saveForLater: {
-    borderWidth: 0.8,
+    borderWidth: 1.5,
     borderColor: 'rgb(59, 149, 199)',
     backgroundColor: 'white',
     paddingVertical: 10,
-    borderRadius: 2,
+    borderRadius: 4,
   },
    saveForLaterText: {
     color: 'white',
@@ -97,12 +94,11 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   close: {
-    borderWidth: 0.8,
+    borderWidth: 1.5,
     borderColor: 'rgb(59, 149, 199)',
     backgroundColor: 'white',
     width: 40,
     height: 40,
-    borderRadius: 30,
   }
 })
 

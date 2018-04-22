@@ -22,27 +22,42 @@ export default class App extends React.Component {
   }
 
   calculateTotal() {
-    this.state.items.forEach((item) => {
+    var totalMoney = 0
+    this.setState({ 
+      total: 0
+    }, () => {
+      this.state.items.forEach((item) => {
+        totalMoney += item['currentPrice'] * item['quantity']
+      })
       this.setState({
-        total: this.state.total + item.currentPrice * item.quantity
-      }, () => {
-        console.log(this.state.total)
+        total: totalMoney
       })
     })
   }
 
   countTotalItems() {
-    console.log(this.state.items)
-    this.state.items.forEach((item) => {
-      this.setState({
-        totalItems: this.state.totalItems + item.quantity
+    this.setState({
+      totalItems:0
+    }, () => {
+      var sum = 0
+      this.state.items.forEach((item) => {
+        sum += item['quantity']
       })
+      this.setState({
+        totalItems: sum
+      })
+    })
+  }
+
+  addToTotalItems(item) {
+    this.setState({
+      totalItems: this.state.totalItems + item['quantity']
     })
   }
 
   addItemToCart(id, quantity) {
     var item = _.find(this.state.items, {id: id})
-    if(item) {
+    if(item != null) {
       var index = _.findIndex(this.state.items, {id: id});
       item['quantity'] = item['quantity'] + quantity
       var oldArray = this.state.items;
@@ -50,6 +65,7 @@ export default class App extends React.Component {
       this.setState({
         items: oldArray
       }, () => {
+        console.log(this.state.items)
         this.calculateTotal()
         this.countTotalItems()
       })
@@ -60,17 +76,17 @@ export default class App extends React.Component {
         items: this.state.items.concat(_.find(products, {id: id}))
       }, () => {
         this.calculateTotal()
-        this.countTotalItems()
+        this.addToTotalItems(item)
       })
     }
   }
 
   deleteItem(id) {
     var index = _.findIndex(this.state.items, {id: id});
-    var oldArray = this.state.items;
-    var newArray = oldArray.splice(index, 1);
+    var items = this.state.items;
+    items.splice(index, 1);
     this.setState({
-      items: oldArray
+      items: items
     }, () => {
       this.setState({
         total: 0,

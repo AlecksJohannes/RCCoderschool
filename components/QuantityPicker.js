@@ -12,14 +12,13 @@ class QuantityPicker extends Component {
       <View>
         <ModalSelector
           data={[
-              {  key: 1, label: 1 },
-              {  key: 2, label: 2 },
-              {  key: 3, label: 3 },
-              {  key: 4, label: 4 },
-              {  key: 5, label: 5 }
+              {  key: 1, label: "Quantity: 1" },
+              {  key: 2, label: "Quantities: 2" },
+              {  key: 3, label: "Quantities: 3" },
+              {  key: 4, label: "Quantities: 4" },
+              {  key: 5, label: "Quantities: 5" }
             ]}
-          initValue="Qty"
-          onChange={(option)=>{ this.props.setQuantity(option.key) }} />
+          initValue="Qty" />
       </View>
     );
   }
