@@ -28,7 +28,7 @@ class Cart extends Component {
             title={titleConfig}
             style={{backgroundColor: 'rgb(19, 125, 193)'}}
           />
-          <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, marginTop: 15}}> Est. total: ${this.props.screenProps.total} </Text>
+          <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, marginTop: 15}}> Est. total: ${parseFloat(this.props.screenProps.total).toFixed(2)} </Text>
           <TouchableOpacity style={styles.checkOutButton}>
             <Text style={styles.checkOutText}> Check Out ({this.props.screenProps.totalItems}) </Text>
           </TouchableOpacity>
